@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Calculator</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- <img src="https://realhomez.org/assets/img/black-logo.png"  style="width:250px;"> -->
+<form id="form">
+    <label for="area">Area</label> 
+        <select name="area" id="area">
+            <option selected>Select area</option>
+            <option value="720">720</option>
+            <option value="910">910</option>
+            <option value="925">925</option>
+            <option value="1010">1010</option>
+            <option value="1075">1075</option>
+            <option value="1255">1255</option>
+            <option value="1345">1345</option>
+            <option value="1595">1595</option>
+            <option value="1810">1810</option>
+        </select>
+    <br><br>
+    <label for="">
+        BHK
+        <input type="text" disabled value="" id="bhk">
+    </label>
+    <br><br>
+    <label for="">
+        Base selling Price
+        <input type="text" disabled value="7250" id="bsp">
+    </label>
+    <br><br>
+    <label for="">
+        Price :
+        <input type="text" value="" id="price" disabled>
+    </label>
+    <br><br>
+    <label for="">
+        Client Budget :
+        <input type="text" value="" id="budget">
+    </label>
+    <br><br>
+    <label for="">
+        Client Price :
+        <input type="text" value="" id="clientprice" disabled>
+    </label>
+    <br><br>
+    <!-- <label for="">
+        Client Bsp Per sqft
+        <input type="text" disabled value="" id="cbsp">
+    </label> -->
+</form>
+
+<script>
+$(document).ready(function() {
+    $("#area").change(function() {
+        var area = parseInt($(this).val());
+        var bhk = 0;
+        
+        if (area >= 720 && area < 1075) {
+            bhk = 1;
+        }else if (area >= 1075 && area < 1345) {
+            bhk = 2;
+        } else if (area >= 1345) {
+            bhk = 3;
+        }
+        
+        $("#bhk").val(bhk);
+        
+        // Calculate property price and update the price field
+        var bsp = parseFloat($("#bsp").val());
+        var propertyPrice = area * bsp;
+        $("#price").val(Math.round(propertyPrice)); // Convert to integer
+    });
+    
+    $("#budget").on('input', function() {
+        var budget = parseFloat($(this).val());
+        var area = parseFloat($("#area").val());
+        var bsp = parseFloat($("#bsp").val());
+        
+        var clientPrice = budget / area; // Convert to per square foot
+        $("#clientprice").val(clientPrice.toFixed(2));
+        
+        var clientBspPerSqft = budget / bsp;
+        $("#cbsp").val(clientBspPerSqft.toFixed(2));
+        
+        if (isNaN(budget)) {
+            $("#clientprice").val('');
+            $("#cbsp").val('');
+        }
+    });
+});
+</script>
+
+<!-- minimun bsp 7000 -->
+</body>
+</html>
